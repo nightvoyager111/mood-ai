@@ -1,2 +1,10 @@
-# mood-ai
-An AI therapist that actually logs mood swings
+# ask-tapeb
+**Your neurospicy AI companion - part therapist, part mood decoder**
+
+### Why This Exists (aka why I built this)
+I used every mood tracker out there. They'd dutifully record my "3/10" days, then shrug when burnout inevitably kicks in.
+
+### What It Actually Does
+A dual-function tool combining:
+- **Smart Mood and Behaviour Tracking** (auto-detects meltdown triggers)
+- **AI-powered Chat** (no toxic positivity)
