@@ -4,7 +4,7 @@ import requests
 app = Flask(__name__)
 
 def ollama_chat(prompt):
-    OLLAMA_API_URL = "https://853b0bdab4a1.ngrok-free.app"
+    OLLAMA_API_URL = "https://3eba549bdef9.ngrok-free.app"
     response = requests.post(f"{OLLAMA_API_URL}/api/generate", json={
         "model": "mistral",
         "prompt": prompt,
@@ -22,7 +22,7 @@ def ask():
     print("User asked:", user_input)
     
     try:
-        OLLAMA_API_URL = "https://853b0bdab4a1.ngrok-free.app"
+        OLLAMA_API_URL = "https://3eba549bdef9.ngrok-free.app"
         response = requests.post(f"{OLLAMA_API_URL}/api/generate", json={
             "model": "mistral",
             "prompt": user_input,
