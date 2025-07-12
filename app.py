@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import requests
 
 app = Flask(__name__)
-OLLAMA_API_URL = "https://abc123.ngrok-free.app"  # Replace with new tunnel
+OLLAMA_API_URL = "https://e92098e86eae.ngrok-free.app"  # Replace with new tunnel
 
 @app.route('/')
 def index():
