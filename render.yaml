@@ -1,0 +1,8 @@
+services:
+  - name: ask-tapeb
+    type: web
+    env: python
+    buildCommand: ""
+    startCommand: gunicorn app:app
+    plan: free
+    
