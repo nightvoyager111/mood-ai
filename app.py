@@ -2,15 +2,7 @@ from flask import Flask, render_template, request, jsonify
 import requests
 
 app = Flask(__name__)
-
-def ollama_chat(prompt):
-    OLLAMA_API_URL = "https://3eba549bdef9.ngrok-free.app"
-    response = requests.post(f"{OLLAMA_API_URL}/api/generate", json={
-        "model": "mistral",
-        "prompt": prompt,
-        "stream": False
-    })
-    return response.json()["response"]
+OLLAMA_API_URL = "https://abc123.ngrok-free.app"  # Replace with new tunnel
 
 @app.route('/')
 def index():
@@ -20,9 +12,8 @@ def index():
 def ask():
     user_input = request.json.get('message')
     print("User asked:", user_input)
-    
+
     try:
-        OLLAMA_API_URL = "https://3eba549bdef9.ngrok-free.app"
         response = requests.post(f"{OLLAMA_API_URL}/api/generate", json={
             "model": "mistral",
             "prompt": user_input,
@@ -36,7 +27,6 @@ def ask():
     except requests.exceptions.RequestException as e:
         print("Error:", e)
         return jsonify({'reply': 'Sorry, something went wrong.'})
-    
 
 if __name__ == '__main__':
     app.run(debug=True)
