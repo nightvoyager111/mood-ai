@@ -4,7 +4,8 @@ import requests
 app = Flask(__name__)
 
 def ollama_chat(prompt):
-    response = requests.post("http://localhost:11434/api/generate", json={
+    OLLAMA_API_URL = "https://853b0bdab4a1.ngrok-free.app"
+    response = requests.post(f"{OLLAMA_API_URL}/api/generate", json={
         "model": "mistral",
         "prompt": prompt,
         "stream": False
@@ -21,7 +22,8 @@ def ask():
     print("User asked:", user_input)
     
     try:
-        response = requests.post("http://localhost:11434/api/generate", json={
+        OLLAMA_API_URL = "https://853b0bdab4a1.ngrok-free.app"
+        response = requests.post(f"{OLLAMA_API_URL}/api/generate", json={
             "model": "mistral",
             "prompt": user_input,
             "stream": False
