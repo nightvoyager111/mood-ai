@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY")
 TOGETHER_API_URL = "https://api.together.xyz/v1/chat/completions"
-MODEL_NAME = "mistralai/Mistral-7B-Instruct-v0.1"  # You can change this later
+MODEL_NAME = "mistralai/Mistral-7B-Instruct-v0.1" 
 
 @app.route('/')
 def index():
