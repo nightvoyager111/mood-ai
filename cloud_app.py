@@ -1,29 +1,12 @@
-import os
 from flask import Flask, render_template, request, jsonify
-from dotenv import load_dotenv
 import requests
-
-load_dotenv()
+import os
 
 app = Flask(__name__)
 
-DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
-DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"
-
-def deepseek_chat(prompt):
-    headers = {
-        "Authorization": f"Bearer {DEEPSEEK_API_KEY}",
-        "Content-Type": "application/json"
-    }
-    payload = {
-        "model": "deepseek-chat",
-        "messages": [{"role": "user", "content": prompt}],
-        "max_tokens": 300,
-        "temperature": 0.7
-    }
-    response = requests.post(DEEPSEEK_API_URL, headers=headers, json=payload)
-    response.raise_for_status()
-    return response.json()['choices'][0]['message']['content']
+TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY")
+TOGETHER_API_URL = "https://api.together.xyz/v1/chat/completions"
+MODEL_NAME = "mistralai/Mistral-7B-Instruct-v0.1"  # You can change this later
 
 @app.route('/')
 def index():
@@ -35,10 +18,27 @@ def ask():
     print("User asked:", user_input)
 
     try:
-        reply = deepseek_chat(user_input)
-        print("DeepSeek reply:", reply)
+        response = requests.post(
+            TOGETHER_API_URL,
+            headers={
+                "Authorization": f"Bearer {TOGETHER_API_KEY}",
+                "Content-Type": "application/json"
+            },
+            json={
+                "model": MODEL_NAME,
+                "messages": [
+                    {"role": "system", "content": "You are a helpful and emotionally supportive AI therapist."},
+                    {"role": "user", "content": user_input}
+                ],
+                "temperature": 0.7,
+                "max_tokens": 300
+            }
+        )
+        data = response.json()
+        reply = data['choices'][0]['message']['content']
+        print("AI reply:", reply)
         return jsonify({'reply': reply})
-        
+
     except Exception as e:
         print("Error:", e)
         return jsonify({'reply': 'Sorry, something went wrong.'})
