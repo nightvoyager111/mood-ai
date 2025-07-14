@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const ChatInput: React.FC<{ onSend: (message: string) => void }> = ({ onSend }) => {
+export const ChatInput = ({ onSend }: {onSend: (text: string) => void }) => {
   const [input, setInput] = useState("");
 
   const handleSend = () => {
@@ -38,4 +38,3 @@ const ChatInput: React.FC<{ onSend: (message: string) => void }> = ({ onSend }) 
   );
 };
 
-export default ChatInput;
