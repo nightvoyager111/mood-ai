@@ -13,7 +13,7 @@ export const ChatUI = () => {
   const [isTyping, setIsTyping] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  const handleSend = (text: string) => {
+  const handleSend = async (text: string) => {
     const userMessage = {
       id: messages.length + 1,
       role: "user" as const,
@@ -23,33 +23,35 @@ export const ChatUI = () => {
     setMessages((prev) => [...prev, userMessage]);
     setIsTyping(true);
 
-    setTimeout(() => {
-      const reply = {
+    try {
+      const res = await fetch("/ask", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: text }),
+      });
+
+      const data = await res.json();
+      const assistantMessage = {
         id: messages.length + 2,
         role: "assistant" as const,
-        content: `Mock reply to: ${text}`,
+        content: data.reply,
       };
-      setMessages((prev) => [...prev, reply]);
-      setIsTyping(false);
-    }, 1000);
+
+      setMessages((prev) => [...prev, assistantMessage]);
+    } catch (err) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: messages.length + 2,
+          role: "assistant",
+          content: "Sorry, something went wrong.",
+        },
+      ]);
+    }
+
+    setIsTyping(false);
   };
 
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isTyping]);
-
-  return (
-    <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="bg-gray-200 dark:bg-gray-800 p-3 text-center font-bold text-lg border-b">
-        Ask-TapeB Chat
-      </div>
-
-      <div className="flex-1 overflow-y-auto px-2">
-        <ChatMessages messages={messages} isTyping={isTyping} />
-        <div ref={bottomRef} />
-      </div>
-
-      <ChatInput onSend={handleSend} />
-    </div>
-  );
 };
